@@ -8,6 +8,7 @@ package edu.uga.cs.frugalshopper;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,6 +18,14 @@ import android.widget.Toast;
  * This is the only class for this app. It contains the variables and event necessary to help a frugal shopper.
  */
 public class MainActivity extends AppCompatActivity {
+
+    protected double getValue(EditText e) {
+        String value = e.getText().toString();
+        if(value.equals("")){
+            value = "0";
+        }
+        return Double.parseDouble(value);
+    }
 
     /**
      * This is the overridden method onCreate
@@ -29,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 //  TODO get toast to work
-        final TextView toast = findViewById(R.id.textView2);
+
+//        final TextView toast = findViewById(R.id.textView2);
 
         final EditText priceAtext = (EditText) findViewById(R.id.priceA);
         final EditText poundsAtext = (EditText) findViewById(R.id.poundsA);
@@ -47,37 +57,52 @@ public class MainActivity extends AppCompatActivity {
         final Button compare = findViewById(R.id.compare);
 
 //  todo for debugging
-        Toast.makeText(getApplicationContext(), "testing this toast message", Toast.LENGTH_LONG).show();
-        Toast.makeText(MainActivity.this, "testing this toast message", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "testing this toast message", Toast.LENGTH_LONG).show();
+//        Toast.makeText(MainActivity.this, "testing this toast message", Toast.LENGTH_LONG).show();
 
 //        event handler for compare button
         compare.setOnClickListener(event -> {
             bestBuy.setText("Best Buy: "); // resets the bestBuy TextView so that old values do not carry over somehow
 
 //  todo    for debugging
-            toast.setText("");
-            Toast.makeText(getApplicationContext(), "testing this second toast message", Toast.LENGTH_LONG).show();
-            Toast.makeText(MainActivity.this, "testing this seconf toast message", Toast.LENGTH_LONG).show();
+
+//            toast.setText("");
+//            Toast.makeText(getApplicationContext(), "testing this second toast message", Toast.LENGTH_LONG).show();
+//            Toast.makeText(MainActivity.this, "testing this seconf toast message", Toast.LENGTH_LONG).show();
 
 //  TODO remove default text of "0" so that this works while displaying the hints
-            double priceA = Double.parseDouble(priceAtext.getText().toString());
-            double poundsA = Double.parseDouble(poundsAtext.getText().toString());
-            double ouncesA = Double.parseDouble(ouncesAtext.getText().toString());
 
-            double priceB = Double.parseDouble(priceBtext.getText().toString());
-            double poundsB = Double.parseDouble(poundsBtext.getText().toString());
-            double ouncesB = Double.parseDouble(ouncesBtext.getText().toString());
+//            double priceA = Double.parseDouble(priceAtext.getText().toString());
+//            double poundsA = Double.parseDouble(poundsAtext.getText().toString());
+//            double ouncesA = Double.parseDouble(ouncesAtext.getText().toString());
+//
+//            double priceB = Double.parseDouble(priceBtext.getText().toString());
+//            double poundsB = Double.parseDouble(poundsBtext.getText().toString());
+//            double ouncesB = Double.parseDouble(ouncesBtext.getText().toString());
+//
+//            double priceC = Double.parseDouble(priceCtext.getText().toString());
+//            double poundsC = Double.parseDouble(poundsCtext.getText().toString());
+//            double ouncesC = Double.parseDouble(ouncesCtext.getText().toString());
 
-            double priceC = Double.parseDouble(priceCtext.getText().toString());
-            double poundsC = Double.parseDouble(poundsCtext.getText().toString());
-            double ouncesC = Double.parseDouble(ouncesCtext.getText().toString());
+            double priceA = getValue(priceAtext);
+            double priceB = getValue(priceBtext);
+            double priceC = getValue(priceCtext);
+
+            double poundsA = getValue(priceAtext);
+            double poundsB = getValue(priceBtext);
+            double poundsC = getValue(priceCtext);
+
+            double ouncesA = getValue(priceAtext);
+            double ouncesB = getValue(priceBtext);
+            double ouncesC = getValue(priceCtext);
 
             double unitPriceA;
             double unitPriceB;
             double unitPriceC;
 
             if (priceA <= 0 && priceB <= 0 && priceC <= 0) {    // if no item is entered with a price
-                toast.setText("You must input at least one product with a price and weight.");
+//                toast.setText("You must input at least one product with a price and weight.");
+                Toast.makeText(this, "You must input at least one product with a price and weight.", Toast.LENGTH_SHORT).show();
             } else {
                 if ((priceA > 0 && (poundsA > 0 || ouncesA > 0)) || (priceA == 0 && poundsA == 0 && ouncesA == 0)) { // if a price and at least one weight is entered or nothing is entered
                     unitPriceA = (poundsA * 16 + ouncesA) / priceA;
@@ -111,11 +136,13 @@ public class MainActivity extends AppCompatActivity {
                     bestProduct = 'C';
                 }
                 if (unitPriceA < 0 || unitPriceB < 0 || unitPriceC < 0) { // an error occured because a weight was not entered for one or more of the prices entered
-                    toast.setText("You must enter a weight for each product that you enter.");
+//                    toast.setText("You must enter a weight for each product that you enter.");
+                    Toast.makeText(this, "You must enter a weight for each product that you enter.", Toast.LENGTH_SHORT).show();
                 } else {
                     bestBuy.setText("Best Buy:  " + bestProduct + " at $" + bestPrice);
 //  todo for debugging
-                    toast.setText("");
+                    Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+//                    toast.setText("");
                 }
             }
         });
